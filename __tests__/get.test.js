@@ -16,7 +16,7 @@ describe('/api/topics', () => {
             .then((response) => {
                 expect(response.body.topics.length).toBe(3)
                 expect(response.body.topics[0].hasOwnProperty('slug')).toBe(true)
-
+                expect(response.body.topics[0].hasOwnProperty('description')).toBe(true)
             })
     })
 })
@@ -26,7 +26,7 @@ describe('/api/topics/invalidendpoint', ()=>{
         .get('/api/topics/invalidendpoint')
         .expect(404)
         .then((response)=>{
-            expect(response.text).toEqual('not found');
+            expect(response.body.msg).toEqual('not found');
         })
     })
 })
