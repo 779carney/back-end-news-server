@@ -30,3 +30,20 @@ describe('/api/topics/invalidendpoint', ()=>{
         })
     })
 })
+describe('/api', ()=>{
+    test('to GET an json object containing a description of the end points, what queries can be made and an example response', ()=>{
+        return request(app)
+        .get('/api/')
+        .expect(200)
+        .then((response)=>{
+            const topicsEpObject = response.body.endPointData["GET /api/topics"];
+           
+            expect(typeof topicsEpObject).toEqual('object');
+            expect(topicsEpObject.hasOwnProperty('description')).toBe(true);
+            expect(topicsEpObject.hasOwnProperty('queries')).toBe(true);
+            expect(topicsEpObject.hasOwnProperty('exampleResponse')).toBe(true);
+            expect(Array.isArray(topicsEpObject.queries)).toBe(true);
+            expect(typeof topicsEpObject.exampleResponse).toBe('object')
+        })
+    })
+})
