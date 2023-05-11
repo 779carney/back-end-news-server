@@ -1,6 +1,7 @@
 const db = require('../db/connection');
 const data = require('../db/data/test-data');
 const fs =require('fs/promises');
+const {getArticlesInDateOrderQuery} = require('./query-strings');
 
 exports.getTopics = () =>{
 return db.query(`SELECT * FROM topics;`).then((result)=>{
@@ -25,4 +26,14 @@ exports.getByArticleId=(id)=>{
    }
    return article;
    })
+}
+
+
+
+exports.getArticlesInDateOrder=()=>{
+return db.query(getArticlesInDateOrderQuery).then((result)=>{
+   const articlesInDateOrder=result.rows;
+
+   return articlesInDateOrder;
+})
 }

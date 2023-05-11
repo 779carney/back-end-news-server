@@ -1,4 +1,4 @@
-const {getTopics, getApi, getByArticleId} = require('../models/model.api')
+const {getTopics, getApi, getByArticleId, getArticlesInDateOrder} = require('../models/model.api')
 
 exports.fetchTopics =(req, res) =>{
 getTopics().then((result)=>{
@@ -18,4 +18,10 @@ exports.fetchArticleId=(req,res,next)=>{
     getByArticleId(articleIdQuery).then((result)=>{
 res.status(200).send({article: result})
     }).catch(next);
+}
+
+exports.fetchArticles=(req,res)=>{
+    getArticlesInDateOrder().then((result)=>{
+        res.status(200).send({articles: result})
+    })
 }

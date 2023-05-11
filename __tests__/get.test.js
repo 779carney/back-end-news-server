@@ -109,3 +109,32 @@ describe('/api/articles/:article_id', () => {
             })
     })
 })
+describe('/api/articles', () => {
+    test(`to GET status 200 and an array containing article objects containing the following properties:author, title, article_id, body, topic, created_at, votes, article_img_url, comment_count. the articles should be sorted by date in descending order.  `, () => {
+        return request(app)
+            .get('/api/articles')
+            .expect(200)
+            .then((response) => {
+                const articleArray = response.body.articles;
+                expect(articleArray.forEach((article) => {
+                    expect(typeof article.author).toBe('string');
+                    expect(typeof article.title).toBe('string');
+                    expect(typeof article.article_id).toBe('number');
+                    expect(typeof article.topic).toBe('string');
+                    expect(typeof article.created_at).toBe('string');
+                    expect(typeof article.votes).toBe('number');
+                    expect(typeof article.article_img_url).toBe('string');
+                    expect(typeof article.comment_count).toBe('number');
+                }))
+            })
+    }
+    )
+    test('to GET status 404 if the article array is an empty array', ()=>{
+        return request(app)
+        .get('/api/articlesinvalid')
+        .expect(404)
+        .then((response)=>{
+            expect(response.body.msg).toEqual('not found')
+        })
+    })
+})

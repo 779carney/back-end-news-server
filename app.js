@@ -1,5 +1,5 @@
 const express = require("express");
-const {fetchTopics, fetchApi, fetchArticleId} = require("./controllers/controller.api");
+const {fetchTopics, fetchApi, fetchArticleId, fetchArticles} = require("./controllers/controller.api");
 
 const app = express();
 app.use(express.json());
@@ -9,6 +9,8 @@ app.get('/api/topics', fetchTopics);
 app.get('/api/', fetchApi);
 
 app.get('/api/articles/:article_id', fetchArticleId)
+
+app.get('/api/articles', fetchArticles)
 
 
 app.get('/*', (req,res)=>{
