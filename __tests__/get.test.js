@@ -36,16 +36,16 @@ describe('/api', () => {
             .get('/api/')
             .expect(200)
             .then((response) => {
-                const apiEpObject=response.body.endPointData["GET /api"];
+                const apiEpObject = response.body.endPointData["GET /api"];
                 expect(apiEpObject.hasOwnProperty('description')).toBe(true);
-                const topicsEpObject = response.body.endPointData["GET /api/topics"];
-                expect(typeof topicsEpObject).toEqual('object');
-                expect(topicsEpObject.hasOwnProperty('description')).toBe(true);
-                expect(topicsEpObject.hasOwnProperty('queries')).toBe(true);
-                expect(topicsEpObject.hasOwnProperty('exampleResponse')).toBe(true);
-                expect(Array.isArray(topicsEpObject.queries)).toBe(true);
-                expect(typeof topicsEpObject.exampleResponse).toBe('object')
-                const articlesEpObject =response.body.endPointData["GET /api/articles"];
+                const epObject = response.body.endPointData["GET /api/topics"];
+                expect(typeof epObject).toEqual('object');
+                expect(epObject.hasOwnProperty('description')).toBe(true);
+                expect(epObject.hasOwnProperty('queries')).toBe(true);
+                expect(epObject.hasOwnProperty('exampleResponse')).toBe(true);
+                expect(Array.isArray(epObject.queries)).toBe(true);
+                expect(typeof epObject.exampleResponse).toBe('object')
+                const articlesEpObject = response.body.endPointData["GET /api/articles"];
                 expect(typeof articlesEpObject).toEqual('object');
                 expect(articlesEpObject.hasOwnProperty('description')).toBe(true);
                 expect(articlesEpObject.hasOwnProperty('queries')).toBe(true);
@@ -55,5 +55,56 @@ describe('/api', () => {
 
             })
 
+    })
+})
+describe('/api/articles/:article_id', () => {
+    test('to GET an article object containing the following properties: author, title, article_id, body, topic, created_at, votes, article_img_url', () => {
+        return request(app)
+            .get('/api/articles/9')
+            .expect(200)
+            .then((response) => {
+                const articleObject = response.body.article
+                expect(articleObject.hasOwnProperty('author')).toBe(true);
+                expect(articleObject.hasOwnProperty('title')).toBe(true);
+                expect(articleObject.hasOwnProperty('article_id')).toBe(true);
+                expect(articleObject.hasOwnProperty('body')).toBe(true);
+                expect(articleObject.hasOwnProperty('topic')).toBe(true);
+                expect(articleObject.hasOwnProperty('created_at')).toBe(true);
+                expect(articleObject.hasOwnProperty('votes')).toBe(true);
+                expect(articleObject.hasOwnProperty('article_img_url')).toBe(true);
+            })
+    })
+    test('to GET a status 400 and correct error message when an invalid article id is selected', () => {
+        return request(app)
+            .get('/api/articles/invalid')
+            .expect(400)
+            .then((response) => {
+                expect(response.body.msg).toEqual('invalid request')
+            })
+    })
+    test('to GET a status 404 and correct error message when an  article id is valid but does not exist', () => {
+        return request(app)
+            .get('/api/articles/500000')
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toEqual('not found')
+            })
+
+    })
+    test('check the endpoints.json file has been updated ', () => {
+        return request(app)
+            .get('/api/')
+            .expect(200)
+            .then((response) => {
+                const epObject = response.body.endPointData["GET /api/articles/:article_id"];
+                expect(typeof epObject).toEqual('object');
+                expect(epObject.hasOwnProperty('description')).toBe(true);
+                expect(epObject.hasOwnProperty('queries')).toBe(true);
+                expect(epObject.hasOwnProperty('exampleResponse')).toBe(true);
+                expect(Array.isArray(epObject.queries)).toBe(true);
+                expect(typeof epObject.exampleResponse).toBe('object')
+
+
+            })
     })
 })
