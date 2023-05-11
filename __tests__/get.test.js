@@ -64,6 +64,7 @@ describe('/api/articles/:article_id', () => {
             .expect(200)
             .then((response) => {
                 const articleObject = response.body.article
+                expect(articleObject.article_id).toBe(9);
                 expect(articleObject.hasOwnProperty('author')).toBe(true);
                 expect(articleObject.hasOwnProperty('title')).toBe(true);
                 expect(articleObject.hasOwnProperty('article_id')).toBe(true);
