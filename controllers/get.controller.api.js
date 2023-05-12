@@ -1,4 +1,4 @@
-const {getTopics, getApi, getByArticleId, getArticlesInDateOrder, getCommentsById} = require('../models/model.api')
+const {getTopics, getApi, getByArticleId, getArticlesInDateOrder, getCommentsById} = require('../models/get.model.api')
 
 exports.fetchTopics =(req, res) =>{
 getTopics().then((result)=>{

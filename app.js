@@ -1,6 +1,6 @@
 const express = require("express");
-const {fetchTopics, fetchApi, fetchArticleId, fetchArticles, fetchCommentsById} = require("./controllers/controller.api");
-
+const {fetchTopics, fetchApi, fetchArticleId, fetchArticles, fetchCommentsById} = require("./controllers/get.controller.api");
+const {sendComment}= require('./controllers/post.controller.api');
 const app = express();
 app.use(express.json());
 
@@ -8,12 +8,13 @@ app.get('/api/topics', fetchTopics);
 
 app.get('/api/', fetchApi);
 
-app.get('/api/articles/:article_id', fetchArticleId)
+app.get('/api/articles/:article_id', fetchArticleId);
 
-app.get('/api/articles', fetchArticles)
+app.get('/api/articles', fetchArticles);
 
-app.get('/api/articles/:article_id/comments', fetchCommentsById,)
+app.get('/api/articles/:article_id/comments', fetchCommentsById,);
 
+app.post('/api/articles/:article_id/comments', sendComment)
 
 app.get('/*', (req,res)=>{
   res.status(404).send({msg:'not found'})
@@ -26,10 +27,14 @@ app.get('/*', (req,res)=>{
   });
   
   app.use((err, req, res, next) => {
-    if (err.code === '22P02') {
+    console.log(err);
+    if (err.code === '22P02' || err.code === '23502') {
       res.status(400).send({ msg: 'invalid request' });
-    } else next(err);
+    } else if(err.code === '23503'){
+      res.status(404).send({msg:'user not found'})
+    }else next(err);
   });
+
   
   app.use((err, req, res, next) => {
     console.log(err);

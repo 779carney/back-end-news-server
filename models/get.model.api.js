@@ -2,7 +2,8 @@ const db = require('../db/connection');
 const data = require('../db/data/test-data');
 const fs = require('fs/promises');
 const { getArticlesInDateOrderQuery, getCommentsByIdQuery, getArticleByIdQuery } = require('./query-strings');
-const {checkIfArticleExists}=require('../db/seeds/utils.js')
+
+
 exports.getTopics = () => {
    return db.query(`SELECT * FROM topics;`).then((result) => {
       return result.rows;
