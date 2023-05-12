@@ -138,3 +138,64 @@ describe('/api/articles', () => {
         })
     })
 })
+describe('/api/articles/:article_id/comments', ()=>{
+    test('to GET an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author, body, article_id', ()=>{
+        return request(app)
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then((response)=>{
+            const commentsArray= response.body.comments;
+            expect(commentsArray.length).toBe(11);
+            expect(commentsArray.forEach((comment)=>{
+                expect(typeof comment.comment_id).toBe('number');
+                expect(typeof comment.body).toBe('string');
+                expect(typeof comment.article_id).toBe('number');
+                expect(typeof comment.author).toBe('string');
+                expect(typeof comment.votes).toBe('number');
+                expect(typeof comment.created_at).toBe('string');
+            }))
+        })
+    })
+    test('to GET a status 400 and correct error message when an invalid article id is selected', () => {
+        return request(app)
+            .get('/api/articles/invalid/comments')
+            .expect(400)
+            .then((response) => {
+                expect(response.body.msg).toEqual('invalid request')
+            })
+    })
+    test('to GET a status 200 article id is valid but has no comments ', () => {
+        return request(app)
+            .get('/api/articles/8/comments')
+            .expect(200)
+            .then((response) => {
+                expect(response.body.comments).toEqual([])
+            })
+
+    })
+    test('check the endpoints.json file has been updated ', () => {
+        return request(app)
+            .get('/api/')
+            .expect(200)
+            .then((response) => {
+                const epObject = response.body.endPointData["GET /api/articles/:article_id/comments"];
+                expect(typeof epObject).toEqual('object');
+                expect(epObject.hasOwnProperty('description')).toBe(true);
+                expect(epObject.hasOwnProperty('queries')).toBe(true);
+                expect(epObject.hasOwnProperty('exampleResponse')).toBe(true);
+                expect(Array.isArray(epObject.queries)).toBe(true);
+                expect(Array.isArray(epObject.exampleResponse)).toBe(true)
+
+
+            })
+    })
+    test('to GET 404 status code if article_id is valid but there is no article', ()=>{
+        return request(app)
+        .get('/api/articles/5000/comments')
+        .expect(404)
+        .then((response)=>{
+            expect(response.body.msg).toEqual('no article found')
+        })
+    })
+    
+})

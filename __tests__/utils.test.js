@@ -1,8 +1,10 @@
 const {
   convertTimestampToDate,
   createRef,
-  formatComments,
+  formatComments
 } = require("../db/seeds/utils");
+
+const app = require('../app');
 
 describe("convertTimestampToDate", () => {
   test("returns a new object", () => {
