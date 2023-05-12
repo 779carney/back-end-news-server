@@ -68,7 +68,6 @@ return request(app)
             .expect(200)
             .then((response) => {
                 const epObject = response.body.endPointData["POST /api/articles/:article_id/comments"];
-                console.log(epObject);
                 expect(typeof epObject).toEqual('object');
                 expect(epObject.hasOwnProperty('description')).toBe(true);
                 expect(epObject.hasOwnProperty('queries')).toBe(true);
