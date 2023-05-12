@@ -17,7 +17,6 @@ describe('/api/articles/:article_id/comments', () => {
             .expect(201)
             .then((response)=>{
 const commentObject = response.body.comment;
-console.log(commentObject);
 expect(typeof commentObject).toBe('object')
 expect(commentObject.hasOwnProperty('author')).toBe(true);
 expect(commentObject.hasOwnProperty('body')).toBe(true);

@@ -27,7 +27,6 @@ app.get('/*', (req,res)=>{
   });
   
   app.use((err, req, res, next) => {
-    console.log(err);
     if (err.code === '22P02' || err.code === '23502') {
       res.status(400).send({ msg: 'invalid request' });
     } else if(err.code === '23503'){
