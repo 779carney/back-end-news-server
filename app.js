@@ -4,7 +4,7 @@ const {sendComment}= require('./controllers/post.controller.api');
 const {updateVotes}=require('./controllers/patch.controller.api');
 const app = express();
 app.use(express.json());
-console.log('in app');
+
 app.get('/api/topics', fetchTopics);
 
 app.get('/api/', fetchApi);
@@ -25,8 +25,7 @@ app.get('/*', (req,res)=>{
 
   app.use((err, req, res, next) => {
 
-    if (err.status) {
-      console.log(err);
+    if (err.status) {   
       res.status(err.status).send({ msg: err.msg });
     } else next(err);
   });
@@ -41,7 +40,6 @@ app.get('/*', (req,res)=>{
 
   
   app.use((err, req, res, next) => {
-    console.log(err);
     res.status(500).send({ msg: 'Internal Server Error' });
   });
 

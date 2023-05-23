@@ -4,7 +4,6 @@ const {patchVotesQuery}= require('./query-strings')
 
 
 exports.patchVotes=(id, votes)=>{
-    console.log('in here');
     const articleIdNum = id.article_id;
     const votesNum=votes.inc_votes;
     return checkIfArticleExist(articleIdNum).then(()=>{
