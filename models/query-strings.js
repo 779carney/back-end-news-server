@@ -7,3 +7,4 @@ exports.getCommentsByIdQuery = `SELECT * FROM comments WHERE  article_id = $1;`
 
 exports.postInsertCommentQuery = `INSERT INTO comments (body, author, article_id) VALUES ($1, $2, $3) returning *`
 
+exports.patchVotesQuery =`UPDATE articles SET votes = votes + $1 WHERE article_id = $2 returning *;`
