@@ -3,6 +3,12 @@ const {fetchTopics, fetchApi, fetchArticleId, fetchArticles, fetchCommentsById} 
 const {sendComment}= require('./controllers/post.controller.api');
 const {updateVotes}=require('./controllers/patch.controller.api');
 const app = express();
+const cors = require('cors');
+
+
+app.use(cors());
+
+
 app.use(express.json());
 
 app.get('/api/topics', fetchTopics);
