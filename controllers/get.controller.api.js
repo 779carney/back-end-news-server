@@ -21,7 +21,8 @@ res.status(200).send({article: result})
 }
 
 exports.fetchArticles=(req,res, next)=>{
-    getArticlesInDateOrder().then((result)=>{
+    const query=req.query
+    getArticlesInDateOrder(query).then((result)=>{
         res.status(200).send({articles: result})
     }).catch(next)
 }

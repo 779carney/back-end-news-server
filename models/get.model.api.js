@@ -31,8 +31,16 @@ exports.getByArticleId = (id) => {
 
 
 
-exports.getArticlesInDateOrder = () => {
-   return db.query(getArticlesInDateOrderQuery).then((result) => {
+exports.getArticlesInDateOrder = ({topic}) => {
+   let queryString =`SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.article_id)::INT AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id`
+   const queryValues=[]
+   if(topic){
+      queryString += ` WHERE topic =$1`
+      queryValues.push(topic)
+   }
+   queryString += ` GROUP BY articles.article_id ORDER BY articles.created_at DESC;`
+
+   return db.query(queryString,queryValues).then((result) => {
       const articlesInDateOrder = result.rows;
       return articlesInDateOrder;
    })
@@ -40,7 +48,7 @@ exports.getArticlesInDateOrder = () => {
 
 exports.getCommentsById = (id) => {
    const articleIdNum = id.article_id;
-   return db.query(getArticleByIdQuery, [articleIdNum]).then((result)=>{
+   return db.query(`SELECT * FROM comments WHERE  article_id = $1 ORDER BY created_at ASC;`, [articleIdNum]).then((result)=>{
       if(result.rows.length ===0){
          return Promise.reject({status:404, msg: 'no article found'})
       }else return db.query(getCommentsByIdQuery, [articleIdNum])
