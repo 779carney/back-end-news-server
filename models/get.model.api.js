@@ -48,7 +48,7 @@ exports.getArticlesInDateOrder = ({topic}) => {
 
 exports.getCommentsById = (id) => {
    const articleIdNum = id.article_id;
-   return db.query(`SELECT * FROM comments WHERE  article_id = $1 ORDER BY created_at ASC;`, [articleIdNum]).then((result)=>{
+   return db.query(`SELECT * FROM comments WHERE  article_id = $1 ORDER BY created_at DESC;`, [articleIdNum]).then((result)=>{
       if(result.rows.length ===0){
          return Promise.reject({status:404, msg: 'no article found'})
       }else return db.query(getCommentsByIdQuery, [articleIdNum])
