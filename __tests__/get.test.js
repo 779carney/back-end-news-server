@@ -164,15 +164,15 @@ describe('/api/articles/:article_id/comments', ()=>{
                 expect(response.body.msg).toEqual('invalid request')
             })
     })
-    // test('to GET a status 200 article id is valid but has no comments ', () => {
-    //     return request(app)
-    //         .get('/api/articles/8/comments')
-    //         .expect(200)
-    //         .then((response) => {
-    //             expect(response.body.comments).toEqual([])
-    //         })
+    test('to GET a status 200 article id is valid but has no comments ', () => {
+        return request(app)
+            .get('/api/articles/8/comments')
+            .expect(200)
+            .then((response) => {
+                expect(response.body.comments).toEqual([])
+            })
 
-    // })
+    })
     test('check the endpoints.json file has been updated ', () => {
         return request(app)
             .get('/api/')
@@ -199,15 +199,4 @@ describe('/api/articles/:article_id/comments', ()=>{
     })
     
 })
-// describe('queries', ()=>{
-//     test('queries', ()=>{
-//         return request(app)
-//         .get('/api/articles?topic=mitch')
-//         .expect(200)
-//         .then((response)=>{
-//             expect(response.body.articles.length).toBe(11)
-//         })
-//     })
-
-// })
 

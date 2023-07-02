@@ -1,7 +1,5 @@
 const db = require('../db/connection');
-const data = require('../db/data/test-data');
 const fs = require('fs/promises');
-const { getArticlesInDateOrderQuery, getCommentsByIdQuery, getArticleByIdQuery } = require('./query-strings');
 
 
 exports.getTopics = () => {
@@ -20,7 +18,7 @@ exports.getApi = () => {
 
 exports.getByArticleId = (id) => {
    const articleIdNum = id.article_id;
-   return db.query(getArticleByIdQuery, [articleIdNum]).then((result) => {
+   return db.query( `SELECT * FROM articles WHERE article_id = $1;`, [articleIdNum]).then((result) => {
       const article = result.rows[0];
       if (!article) {
          return Promise.reject({ status: 404, msg: 'not found' });
@@ -48,10 +46,10 @@ exports.getArticlesInDateOrder = ({topic}) => {
 
 exports.getCommentsById = (id) => {
    const articleIdNum = id.article_id;
-   return db.query(`SELECT * FROM comments WHERE  article_id = $1 ORDER BY created_at ASC;`, [articleIdNum]).then((result)=>{
+   return db.query(`SELECT * FROM articles WHERE  article_id = $1 ORDER BY created_at ASC;`, [articleIdNum]).then((result)=>{
       if(result.rows.length ===0){
          return Promise.reject({status:404, msg: 'no article found'})
-      }else return db.query(getCommentsByIdQuery, [articleIdNum])
+      }else return db.query(`SELECT * FROM comments WHERE  article_id = $1 ORDER BY created_at ASC;`, [articleIdNum])
    }).then((result)=>{
       const commentsArray = result.rows;
       return commentsArray
