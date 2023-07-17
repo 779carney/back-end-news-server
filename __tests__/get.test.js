@@ -8,7 +8,7 @@ const app = require('../app');
 beforeEach(() => seed(data))
 afterAll(() => db.end())
 
-describe('/api/topics', () => {
+describe('GET /api/topics', () => {
     test('to GET an array of objects containing the following keys: slug, description', () => {
         return request(app)
             .get('/api/topics')
@@ -20,7 +20,7 @@ describe('/api/topics', () => {
             })
     })
 })
-describe('/api/topics/invalidendpoint', () => {
+describe('GET /api/topics/invalidendpoint', () => {
     test('to GET correct error message when the user puts an invalid end point', () => {
         return request(app)
             .get('/api/topics/invalidendpoint')
@@ -30,7 +30,7 @@ describe('/api/topics/invalidendpoint', () => {
             })
     })
 })
-describe('/api', () => {
+describe('GET /api', () => {
     test('to GET an json object containing a description of the end points, what queries can be made and an example response', () => {
         return request(app)
             .get('/api/')
@@ -57,7 +57,7 @@ describe('/api', () => {
 
     })
 })
-describe('/api/articles/:article_id', () => {
+describe('GET /api/articles/:article_id', () => {
     test('to GET an article object containing the following properties: author, title, article_id, body, topic, created_at, votes, article_img_url', () => {
         return request(app)
             .get('/api/articles/9')
@@ -109,7 +109,7 @@ describe('/api/articles/:article_id', () => {
             })
     })
 })
-describe('/api/articles', () => {
+describe('GET /api/articles', () => {
     test(`to GET status 200 and an array containing article objects containing the following properties:author, title, article_id, body, topic, created_at, votes, article_img_url, comment_count. the articles should be sorted by date in descending order.  `, () => {
         return request(app)
             .get('/api/articles')
@@ -138,7 +138,7 @@ describe('/api/articles', () => {
         })
     })
 })
-describe('/api/articles/:article_id/comments', ()=>{
+describe('GET /api/articles/:article_id/comments', ()=>{
     test('to GET an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author, body, article_id', ()=>{
         return request(app)
         .get('/api/articles/1/comments')
