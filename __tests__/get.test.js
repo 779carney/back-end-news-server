@@ -9,7 +9,11 @@ beforeEach(() => seed(data))
 afterAll(() => db.end())
 
 describe('GET /api/topics', () => {
-    test('to GET an array of objects containing the following keys: slug, description', () => {
+
+    test('GET - STATUS:200 - Responds with an array of objects containing the following keys: slug, description', () => {
+
+ 
+
         return request(app)
             .get('/api/topics')
             .expect(200)
@@ -21,7 +25,11 @@ describe('GET /api/topics', () => {
     })
 })
 describe('GET /api/topics/invalidendpoint', () => {
-    test('to GET correct error message when the user puts an invalid end point', () => {
+
+    test('GET - STATUS:404 - Responds with correct error message when the user puts an invalid end point', () => {
+
+   
+
         return request(app)
             .get('/api/topics/invalidendpoint')
             .expect(404)
@@ -31,7 +39,9 @@ describe('GET /api/topics/invalidendpoint', () => {
     })
 })
 describe('GET /api', () => {
-    test('to GET an json object containing a description of the end points, what queries can be made and an example response', () => {
+
+    test('GET - STATUS:200 - Responds with a json object containing a description of the end points, what queries can be made and an example response', () => {
+
         return request(app)
             .get('/api/')
             .expect(200)
@@ -58,7 +68,10 @@ describe('GET /api', () => {
     })
 })
 describe('GET /api/articles/:article_id', () => {
-    test('to GET an article object containing the following properties: author, title, article_id, body, topic, created_at, votes, article_img_url', () => {
+
+    test('GET - STATUS:200 - Responds with a article object containing the following properties: author, title, article_id, body, topic, created_at, votes, article_img_url', () => {
+
+    
         return request(app)
             .get('/api/articles/9')
             .expect(200)
@@ -75,7 +88,7 @@ describe('GET /api/articles/:article_id', () => {
                 expect(articleObject.hasOwnProperty('article_img_url')).toBe(true);
             })
     })
-    test('to GET a status 400 and correct error message when an invalid article id is selected', () => {
+    test('GET - STATUS:400 - Responds with correct error message when an invalid article id is selected', () => {
         return request(app)
             .get('/api/articles/invalid')
             .expect(400)
@@ -83,7 +96,7 @@ describe('GET /api/articles/:article_id', () => {
                 expect(response.body.msg).toEqual('invalid request')
             })
     })
-    test('to GET a status 404 and correct error message when an  article id is valid but does not exist', () => {
+    test('GET - STATUS:404 - Responds with correct error message when an  article id is valid but does not exist', () => {
         return request(app)
             .get('/api/articles/500000')
             .expect(404)
@@ -92,7 +105,7 @@ describe('GET /api/articles/:article_id', () => {
             })
 
     })
-    test('check the endpoints.json file has been updated ', () => {
+    test('GET - STATUS:200 - check the endpoints.json file has been updated ', () => {
         return request(app)
             .get('/api/')
             .expect(200)
@@ -110,7 +123,10 @@ describe('GET /api/articles/:article_id', () => {
     })
 })
 describe('GET /api/articles', () => {
-    test(`to GET status 200 and an array containing article objects containing the following properties:author, title, article_id, body, topic, created_at, votes, article_img_url, comment_count. the articles should be sorted by date in descending order.  `, () => {
+
+    test(`GET - STATUS:200 - Responds with an array containing article objects containing the following properties:author, title, article_id, body, topic, created_at, votes, article_img_url, comment_count. the articles should be sorted by date in descending order.  `, () => {
+
+  
         return request(app)
             .get('/api/articles')
             .expect(200)
@@ -129,7 +145,7 @@ describe('GET /api/articles', () => {
             })
     }
     )
-    test('to GET status 404 if the article array is an empty array', ()=>{
+    test('GET - STATUS:404 - Responds with an correct error message if the article array is an empty array', ()=>{
         return request(app)
         .get('/api/articlesinvalid')
         .expect(404)
@@ -139,7 +155,10 @@ describe('GET /api/articles', () => {
     })
 })
 describe('GET /api/articles/:article_id/comments', ()=>{
-    test('to GET an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author, body, article_id', ()=>{
+
+    test('GET - STATUS:200 - Responds with an an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author, body, article_id', ()=>{
+
+
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
@@ -156,7 +175,7 @@ describe('GET /api/articles/:article_id/comments', ()=>{
             }))
         })
     })
-    test('to GET a status 400 and correct error message when an invalid article id is selected', () => {
+    test('GET - STATUS:400 - Responds with correct error message when an invalid article id is selected', () => {
         return request(app)
             .get('/api/articles/invalid/comments')
             .expect(400)
@@ -164,16 +183,20 @@ describe('GET /api/articles/:article_id/comments', ()=>{
                 expect(response.body.msg).toEqual('invalid request')
             })
     })
-    // test('to GET a status 200 article id is valid but has no comments ', () => {
-    //     return request(app)
-    //         .get('/api/articles/8/comments')
-    //         .expect(200)
-    //         .then((response) => {
-    //             expect(response.body.comments).toEqual([])
-    //         })
 
-    // })
-    test('check the endpoints.json file has been updated ', () => {
+    test('GET - STATUS:200 - Responds with an empty array when article id is valid but has no comments ', () => {
+        return request(app)
+            .get('/api/articles/8/comments')
+            .expect(200)
+            .then((response) => {
+                expect(response.body.comments).toEqual([])
+            })
+
+    })
+    test('GET - STATUS:200 - check the endpoints.json file has been updated ', () => {
+
+
+
         return request(app)
             .get('/api/')
             .expect(200)
@@ -189,7 +212,7 @@ describe('GET /api/articles/:article_id/comments', ()=>{
 
             })
     })
-    test('to GET 404 status code if article_id is valid but there is no article', ()=>{
+    test('GET - STATUS:404 - Responds with an correct error message if article_id is valid but there is no article', ()=>{
         return request(app)
         .get('/api/articles/5000/comments')
         .expect(404)

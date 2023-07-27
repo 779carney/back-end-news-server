@@ -9,8 +9,8 @@ beforeEach(() => seed(data))
 afterAll(() => db.end())
 
 
-describe('/api/articles/:article_id/comments', () => {
-    test(' to POST an object containing a username and body and return with a posted comment', () => {
+describe('POST /api/articles/:article_id/comments', () => {
+    test(' GET - STATUS:201 - to POST an object containing a username and body and return with a posted comment', () => {
         return request(app)
             .post('/api/articles/4/comments')
             .send({ username: 'butter_bridge', body: 'nice article' })
@@ -24,7 +24,7 @@ expect(commentObject.author).toBe('butter_bridge');
 expect(commentObject.body).toBe('nice article');
             })
     })
-    test('to GET status 400 if try to post an empty comments object', ()=>{
+    test('GET - STATUS:400 - Responds with correct error message if try to post an empty comments object', ()=>{
 return request(app)
 .post('/api/articles/4/comments')
 .send({})
@@ -33,7 +33,7 @@ return request(app)
     expect(response.body.msg).toEqual('invalid request')
 })
     })
-    test(' to GET status 404 if try to post a comment to article that doesnt exist', ()=>{
+    test('GET - STATUS:404 - Responds with correct error message if try to post a comment to article that doesnt exist', ()=>{
         return request(app)
         .post('/api/articles/400000/comments')
         .send({ username: 'butter_bridge', body: 'nice article' })
@@ -42,7 +42,7 @@ return request(app)
             expect(response.body.msg).toEqual('not found')
         })
     })
-    test('to GET a status 400 and correct error message when an invalid article id is selected when posting a comment', () => {
+    test('GET - STATUS:400 - Responds with correct error message when an invalid article id is selected when posting a comment', () => {
         return request(app)
             .post('/api/articles/invalid/comments')
             .send({ username: 'butter_bridge', body: 'nice article' })
@@ -51,7 +51,7 @@ return request(app)
                 expect(response.body.msg).toEqual('invalid request')
             })
     })
-    test('to GET a status 404 and correct error message when a user does not exist when posting a comment ', () => {
+    test('GET - STATUS:400 - Responds with correct error message when a user does not exist when posting a comment ', () => {
         return request(app)
             .post('/api/articles/4/comments')
             .send({ username: 'elle', body: 'nice article' })
