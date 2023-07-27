@@ -9,7 +9,11 @@ beforeEach(() => seed(data))
 afterAll(() => db.end())
 
 describe('GET /api/topics', () => {
+
     test('GET - STATUS:200 - Responds with an array of objects containing the following keys: slug, description', () => {
+
+ 
+
         return request(app)
             .get('/api/topics')
             .expect(200)
@@ -21,7 +25,11 @@ describe('GET /api/topics', () => {
     })
 })
 describe('GET /api/topics/invalidendpoint', () => {
+
     test('GET - STATUS:404 - Responds with correct error message when the user puts an invalid end point', () => {
+
+   
+
         return request(app)
             .get('/api/topics/invalidendpoint')
             .expect(404)
@@ -31,7 +39,9 @@ describe('GET /api/topics/invalidendpoint', () => {
     })
 })
 describe('GET /api', () => {
+
     test('GET - STATUS:200 - Responds with a json object containing a description of the end points, what queries can be made and an example response', () => {
+
         return request(app)
             .get('/api/')
             .expect(200)
@@ -58,7 +68,10 @@ describe('GET /api', () => {
     })
 })
 describe('GET /api/articles/:article_id', () => {
+
     test('GET - STATUS:200 - Responds with a article object containing the following properties: author, title, article_id, body, topic, created_at, votes, article_img_url', () => {
+
+    
         return request(app)
             .get('/api/articles/9')
             .expect(200)
@@ -110,7 +123,10 @@ describe('GET /api/articles/:article_id', () => {
     })
 })
 describe('GET /api/articles', () => {
+
     test(`GET - STATUS:200 - Responds with an array containing article objects containing the following properties:author, title, article_id, body, topic, created_at, votes, article_img_url, comment_count. the articles should be sorted by date in descending order.  `, () => {
+
+  
         return request(app)
             .get('/api/articles')
             .expect(200)
@@ -139,7 +155,10 @@ describe('GET /api/articles', () => {
     })
 })
 describe('GET /api/articles/:article_id/comments', ()=>{
+
     test('GET - STATUS:200 - Responds with an an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author, body, article_id', ()=>{
+
+
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
@@ -164,6 +183,7 @@ describe('GET /api/articles/:article_id/comments', ()=>{
                 expect(response.body.msg).toEqual('invalid request')
             })
     })
+
     test('GET - STATUS:200 - Responds with an empty array when article id is valid but has no comments ', () => {
         return request(app)
             .get('/api/articles/8/comments')
@@ -174,6 +194,9 @@ describe('GET /api/articles/:article_id/comments', ()=>{
 
     })
     test('GET - STATUS:200 - check the endpoints.json file has been updated ', () => {
+
+
+
         return request(app)
             .get('/api/')
             .expect(200)
