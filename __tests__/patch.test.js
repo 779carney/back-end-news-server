@@ -9,8 +9,8 @@ beforeEach(() => seed(data))
 afterAll(() => db.end())
 
 
-describe('/api/articles/:article_id', () => {
-    test('to PATCH a specific article using the article_id, sending an object with the key of inc_votes and the value of how many votes to be increased or decreased by. then returning the newly updated article', () => {
+describe('PATCH /api/articles/:article_id', () => {
+    test('GET - STATUS:200 - to PATCH a specific article using the article_id, sending an object with the key of inc_votes and the value of how many votes to be increased or decreased by. then returning the newly updated article', () => {
         return request(app)
             .patch('/api/articles/5')
             .send({ inc_votes: 10 })
@@ -20,7 +20,7 @@ describe('/api/articles/:article_id', () => {
                 expect(updatedArticle.votes).toBe(10);
             })
     })
-    test('to GET status 400 if the user trys to add the votes on with an empty object', () => {
+    test('GET - STATUS:400 - Responds with correct error message if the user trys to add the votes on with an empty object', () => {
         return request(app)
             .patch('/api/articles/5')
             .send({})
@@ -29,7 +29,7 @@ describe('/api/articles/:article_id', () => {
                 expect(response.body.msg).toEqual('invalid request');
             })
     })
-    test('to GET a status 404 and correct error message when an article id is valid but doesnt exist when patching the votes', () => {
+    test('GET - STATUS:200 - Responds with correct error message when an article id is valid but doesnt exist when patching the votes', () => {
         return request(app)
             .patch('/api/articles/50000')
             .send({ inc_votes: 10 })
@@ -38,7 +38,7 @@ describe('/api/articles/:article_id', () => {
                 expect(response.body.msg).toEqual('not found')
             })
     })
-    test('to GET  status 400 and correct error message if the artcle id is invalid', ()=>{
+    test('GET - STATUS:400 - Responds with correct error message if the artcle id is invalid', ()=>{
         return request(app)
         .patch('/api/articles/invalid')
         .send({ inc_votes: 10 })
