@@ -41,4 +41,22 @@ describe('DElETE /api/comments/:comment_id', () => {
             })
 
     })
-})
+    test('GET - STATUS:200 - check the endpoints.json file has been updated ', () => {
+
+
+
+        return request(app)
+            .get('/api/')
+            .expect(200)
+            .then((response) => {
+                const epObject = response.body.endPointData["DELETE /api/comments/:comment_id"];
+                expect(typeof epObject).toEqual('object');
+                expect(epObject.hasOwnProperty('description')).toBe(true);
+                expect(epObject.hasOwnProperty('queries')).toBe(true);
+                expect(epObject.hasOwnProperty('exampleResponse')).toBe(true);
+                expect(Array.isArray(epObject.queries)).toBe(true);
+                expect(typeof epObject.exampleResponse).toBe('object')
+
+
+            })
+})})
