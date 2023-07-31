@@ -33,3 +33,13 @@ exports.checkIfArticleExist=(id)=>{
     return Promise.reject({status:404, msg: 'not found'})
   })
 }
+
+exports.checkIfCommentExist=(id)=>{
+  return db.query(`SELECT * FROM comments WHERE comment_id =$1;`, [id]).then((result)=>{
+  const comment=result.rows[0];
+    if(comment){
+      return true;
+    }
+    return Promise.reject({status:404, msg: 'not found'})
+  })
+}
