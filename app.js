@@ -1,5 +1,5 @@
 const express = require("express");
-const {fetchTopics, fetchApi, fetchArticleId, fetchArticles, fetchCommentsById} = require("./controllers/get.controller.api");
+const {fetchTopics, fetchApi, fetchArticleId, fetchArticles, fetchCommentsById, fetchUsers} = require("./controllers/get.controller.api");
 const {sendComment}= require('./controllers/post.controller.api');
 const {updateVotes}=require('./controllers/patch.controller.api');
 const {deleteCommentById}= require('./controllers/delete.controller.api');
@@ -28,6 +28,7 @@ app.patch('/api/articles/:article_id', updateVotes )
 
 app.delete('/api/comments/:comment_id', deleteCommentById )
 
+app.get('/api/users', fetchUsers)
 app.get('/*', (req,res)=>{
   res.status(404).send({msg:'not found'})
   })
