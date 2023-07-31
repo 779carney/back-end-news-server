@@ -37,7 +37,6 @@ describe('DElETE /api/comments/:comment_id', () => {
             .delete('/api/comments/500000')
             .expect(404)
             .then((response) => {
-                console.log(response.body);
                 expect(response.body.msg).toEqual('not found')
             })
 

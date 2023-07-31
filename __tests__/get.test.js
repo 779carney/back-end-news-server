@@ -230,7 +230,6 @@ describe('GET /api/users', () => {
             .get('/api/users')
             .expect(200)
             .then((response) => {
-                console.log(JSON.stringify(response.body.users[0]));
                 expect(response.body.users.length).toBe(4)
                 expect(response.body.users[0].hasOwnProperty('username')).toBe(true)
                 expect(response.body.users[0].hasOwnProperty('name')).toBe(true)
