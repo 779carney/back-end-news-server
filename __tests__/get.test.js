@@ -12,7 +12,7 @@ describe('GET /api/topics', () => {
 
     test('GET - STATUS:200 - Responds with an array of objects containing the following keys: slug, description', () => {
 
- 
+
 
         return request(app)
             .get('/api/topics')
@@ -28,7 +28,7 @@ describe('GET /api/topics/invalidendpoint', () => {
 
     test('GET - STATUS:404 - Responds with correct error message when the user puts an invalid end point', () => {
 
-   
+
 
         return request(app)
             .get('/api/topics/invalidendpoint')
@@ -71,7 +71,7 @@ describe('GET /api/articles/:article_id', () => {
 
     test('GET - STATUS:200 - Responds with a article object containing the following properties: author, title, article_id, body, topic, created_at, votes, article_img_url', () => {
 
-    
+
         return request(app)
             .get('/api/articles/9')
             .expect(200)
@@ -126,7 +126,7 @@ describe('GET /api/articles', () => {
 
     test(`GET - STATUS:200 - Responds with an array containing article objects containing the following properties:author, title, article_id, body, topic, created_at, votes, article_img_url, comment_count. the articles should be sorted by date in descending order.  `, () => {
 
-  
+
         return request(app)
             .get('/api/articles')
             .expect(200)
@@ -145,35 +145,35 @@ describe('GET /api/articles', () => {
             })
     }
     )
-    test('GET - STATUS:404 - Responds with an correct error message if the article array is an empty array', ()=>{
+    test('GET - STATUS:404 - Responds with an correct error message if the article array is an empty array', () => {
         return request(app)
-        .get('/api/articlesinvalid')
-        .expect(404)
-        .then((response)=>{
-            expect(response.body.msg).toEqual('not found')
-        })
+            .get('/api/articlesinvalid')
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toEqual('not found')
+            })
     })
 })
-describe('GET /api/articles/:article_id/comments', ()=>{
+describe('GET /api/articles/:article_id/comments', () => {
 
-    test('GET - STATUS:200 - Responds with an an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author, body, article_id', ()=>{
+    test('GET - STATUS:200 - Responds with an an array of comments for the given article_id of which each comment should have the following properties: comment_id, votes, created_at, author, body, article_id', () => {
 
 
         return request(app)
-        .get('/api/articles/1/comments')
-        .expect(200)
-        .then((response)=>{
-            const commentsArray= response.body.comments;
-            expect(commentsArray.length).toBe(11);
-            expect(commentsArray.forEach((comment)=>{
-                expect(typeof comment.comment_id).toBe('number');
-                expect(typeof comment.body).toBe('string');
-                expect(typeof comment.article_id).toBe('number');
-                expect(typeof comment.author).toBe('string');
-                expect(typeof comment.votes).toBe('number');
-                expect(typeof comment.created_at).toBe('string');
-            }))
-        })
+            .get('/api/articles/1/comments')
+            .expect(200)
+            .then((response) => {
+                const commentsArray = response.body.comments;
+                expect(commentsArray.length).toBe(11);
+                expect(commentsArray.forEach((comment) => {
+                    expect(typeof comment.comment_id).toBe('number');
+                    expect(typeof comment.body).toBe('string');
+                    expect(typeof comment.article_id).toBe('number');
+                    expect(typeof comment.author).toBe('string');
+                    expect(typeof comment.votes).toBe('number');
+                    expect(typeof comment.created_at).toBe('string');
+                }))
+            })
     })
     test('GET - STATUS:400 - Responds with correct error message when an invalid article id is selected', () => {
         return request(app)
@@ -212,15 +212,37 @@ describe('GET /api/articles/:article_id/comments', ()=>{
 
             })
     })
-    test('GET - STATUS:404 - Responds with an correct error message if article_id is valid but there is no article', ()=>{
+    test('GET - STATUS:404 - Responds with an correct error message if article_id is valid but there is no article', () => {
         return request(app)
-        .get('/api/articles/5000/comments')
-        .expect(404)
-        .then((response)=>{
-            expect(response.body.msg).toEqual('no article found')
-        })
+            .get('/api/articles/5000/comments')
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toEqual('no article found')
+            })
     })
-    
+
 })
 
+describe('GET /api/users', () => {
+
+    test('GET - STATUS:200 - Responds with an array of user objects containing the following keys: username, name and avatar_url', () => {
+        return request(app)
+            .get('/api/users')
+            .expect(200)
+            .then((response) => {
+                expect(response.body.users.length).toBe(4)
+                expect(response.body.users[0].hasOwnProperty('username')).toBe(true)
+                expect(response.body.users[0].hasOwnProperty('name')).toBe(true)
+                expect(response.body.users[0].hasOwnProperty('avatar_url')).toBe(true)
+            })
+    })
+    test('GET - STATUS:404 - Responds with correct error message when the user puts an invalid end point', () => {
+        return request(app)
+            .get('/api/users/invalidendpoint')
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toEqual('not found');
+            })
+    })
+})
 

@@ -1,4 +1,4 @@
-const {getTopics, getApi, getByArticleId, getArticlesInDateOrder, getCommentsById} = require('../models/get.model.api')
+const {getTopics, getApi, getByArticleId, getArticlesInDateOrder, getCommentsById, getUsers} = require('../models/get.model.api')
 
 exports.fetchTopics =(req, res) =>{
 getTopics().then((result)=>{
@@ -31,5 +31,12 @@ exports.fetchCommentsById=(req,res, next)=>{
     const articleIdQuery = req.params
     getCommentsById(articleIdQuery).then((result)=>{
        res.status(200).send({comments: result})
+    }).catch(next)
+}
+
+exports.fetchUsers=(req,res, next)=>{
+    
+    getUsers().then((result)=>{
+       res.status(200).send({users: result})
     }).catch(next)
 }

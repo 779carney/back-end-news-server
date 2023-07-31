@@ -55,3 +55,10 @@ exports.getCommentsById = (id) => {
       return commentsArray
    })
 }
+
+
+exports.getUsers =()=>{
+   return db.query(`SELECT * FROM users;`).then((result) => {
+      return result.rows;
+   })
+}
