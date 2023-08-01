@@ -32,6 +32,7 @@ exports.getByArticleId = (id) => {
 exports.getArticlesInDateOrder = ({topic}) => {
    let queryString =`SELECT articles.article_id, articles.title, articles.topic, articles.author, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.article_id)::INT AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id`
    const queryValues=[]
+  
    if(topic){
       queryString += ` WHERE topic =$1`
       queryValues.push(topic)
