@@ -122,7 +122,7 @@ describe('GET /api/articles/:article_id', () => {
             })
     })
 })
-describe('GET /api/articles', () => {
+describe.only('GET /api/articles', () => {
 
     test(`GET - STATUS:200 - Responds with an array containing article objects containing the following properties:author, title, article_id, body, topic, created_at, votes, article_img_url, comment_count. the articles should be sorted by date in descending order.  `, () => {
 
@@ -244,6 +244,10 @@ describe('GET /api/users', () => {
                 expect(response.body.msg).toEqual('not found');
             })
     })
+
+})
+describe('GET /api/articles/?query', () => {
+=======
     test('GET - STATUS:200 - check the endpoints.json file has been updated ', () => {
 
 
@@ -264,3 +268,30 @@ describe('GET /api/users', () => {
             })
 })})
 
+
+    test(`GET - STATUS:200 - Responds with an array containing article objects with the filterd by the query the articles should be sorted by date in descending order.  `, () => {
+
+
+        return request(app)
+            .get('/api/articles?topic=cats')
+            .expect(200)
+            .then((response) => {
+                const articleArray = response.body.articles;
+                expect(articleArray.length).toBe(1)})
+    }
+    )
+})
+describe('GET /api/articles/?query', () => {
+
+    test(`GET - STATUS:200 - Responds with an array containing article objects with the filterd by the query the articles should be sorted by date in descending order.  `, () => {
+
+
+        return request(app)
+            .get('/api/articles?topic=cats')
+            .expect(200)
+            .then((response) => {
+                const articleArray = response.body.articles;
+                expect(articleArray.length).toBe(1)})
+    }
+    )
+})
