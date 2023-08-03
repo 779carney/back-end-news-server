@@ -258,13 +258,18 @@ describe('GET /api/articles/?query', () => {
                 expect(articleArray.length).toBe(1)})
     }
     )
-    // test('GET - STATUS:400 - returns correct error message when an invalid query is selected ', () => {
-    //     return request(app)
-    //         .get('/api/articles?invalid')
-    //         .expect(400)
-    //         .then((response) => {
-    //             expect(response.body.msg).toEqual('not found')
-    //         })
-    // })
 })
+describe('GET /api/articles/?query', () => {
 
+    test(`GET - STATUS:200 - Responds with an array containing article objects with the filterd by the query the articles should be sorted by date in descending order.  `, () => {
+
+
+        return request(app)
+            .get('/api/articles?topic=cats')
+            .expect(200)
+            .then((response) => {
+                const articleArray = response.body.articles;
+                expect(articleArray.length).toBe(1)})
+    }
+    )
+})
