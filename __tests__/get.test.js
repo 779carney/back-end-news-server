@@ -244,8 +244,30 @@ describe('GET /api/users', () => {
                 expect(response.body.msg).toEqual('not found');
             })
     })
+
 })
 describe('GET /api/articles/?query', () => {
+=======
+    test('GET - STATUS:200 - check the endpoints.json file has been updated ', () => {
+
+
+
+        return request(app)
+            .get('/api/')
+            .expect(200)
+            .then((response) => {
+                const epObject = response.body.endPointData["GET /api/users"];
+                expect(typeof epObject).toEqual('object');
+                expect(epObject.hasOwnProperty('description')).toBe(true);
+                expect(epObject.hasOwnProperty('queries')).toBe(true);
+                expect(epObject.hasOwnProperty('exampleResponse')).toBe(true);
+                expect(Array.isArray(epObject.queries)).toBe(true);
+                expect(typeof epObject.exampleResponse).toBe('object')
+
+
+            })
+})})
+
 
     test(`GET - STATUS:200 - Responds with an array containing article objects with the filterd by the query the articles should be sorted by date in descending order.  `, () => {
 
